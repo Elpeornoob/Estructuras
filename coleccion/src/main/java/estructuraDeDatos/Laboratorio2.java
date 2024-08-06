@@ -3,6 +3,7 @@ package estructuraDeDatos;
 import javax.swing.JOptionPane;
 
 import bryan.linkedlist.singly.LinkedList;
+import bryan.util.iterator.Iterator;
 
 public class Laboratorio2 {
     public static void main(String[] args) {
@@ -25,8 +26,8 @@ public class Laboratorio2 {
             "[1]. Agregar elementos a la lista." + "\n" +
             "[2]. Actualizar elementos de la lista." + "\n" +
             "[3]. Eliminar de la lista." + "\n" + 
-            "[4]. Buscar elementos en la lista." + "\n" + 
-            "[5]. Actualizar elementos de la lista" + "\n" +
+            "[4]. Buscar elementos en la lista y mostrar." + "\n" +
+            "[5]. Buscar elementos en la lista por categoria y mostrar." + "\n" + 
             "[6]. Salir");
 
             switch (Opcion) {
@@ -34,103 +35,61 @@ public class Laboratorio2 {
                     try {
                     String nombre = JOptionPane.showInputDialog("Ingrese el nombre del articulo: ");
                     int cantidad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad del articulo: "));
-                    String categoria = JOptionPane.showInputDialog("Ingrese la categorria del articulo: ");
+                    String categoria = seleccionarCategoria();
                     lista.add(new Articulo(nombre, cantidad, categoria));
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "El numero no es valido.");
                     }
                     break;
                 case "2":
-                    // Convertir la lista a un array de Articulo
-                    Articulo[] articulos = new Articulo[lista.size()];
-                    lista.toArray(articulos);
+                   Articulo articuloSeleccionado2 = seleccionarArticulo(lista);
                     
-                    // Convertir el array de Articulo a un array de Strings con solo los nombres
-                    String[] nombresArticulos = new String[articulos.length];
-                    for (int i = 0; i < articulos.length; i++) {
-                        nombresArticulos[i] = articulos[i].getNombre();
-                    }
-                    
-                    // Mostrar el diálogo de selección
-                    String nombreSeleccionado = (String) JOptionPane.showInputDialog(
-                        null,
-                        "Seleccione un artículo",
-                        "Buscar Artículo",
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        nombresArticulos,
-                        nombresArticulos[0]
-                    );
-                    
-                    // Buscar el Articulo correspondiente en el array original
-                    Articulo articuloSeleccionado = null;
-                    for (Articulo articulo : articulos) {
-                        if (articulo.getNombre().equals(nombreSeleccionado)) {
-                            articuloSeleccionado = articulo;
-                            break;
-                        }
-                    }
-                    
-                    if (articuloSeleccionado != null) {
+                    if (articuloSeleccionado2 != null) {
                         try {
-                            JOptionPane.showMessageDialog(null, "Artículo seleccionado: " + articuloSeleccionado.getNombre());
+                            JOptionPane.showMessageDialog(null, "Artículo seleccionado: " + articuloSeleccionado2.getNombre());
                             int nuevaCantidad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la nueva cantidad."));
-                            if(nuevaCantidad > articuloSeleccionado.getCantidad()){
+                            if(nuevaCantidad > articuloSeleccionado2.getCantidad()){
                                 JOptionPane.showMessageDialog(null, "La cantidad nueva debe ser menor a la actual.");
                             }else{
-                                articuloSeleccionado.setCantidad(nuevaCantidad);
+                                articuloSeleccionado2.setCantidad(nuevaCantidad);
                             }
                         } catch (NumberFormatException e) {
                             JOptionPane.showMessageDialog(null, "Numero no valido.");
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Artículo no encontrado.");
+                        JOptionPane.showMessageDialog(null, "Artículo no encontrado o lista vacia.");
                     }
                     
                     break;
                 case "3":
+                    Articulo articuloSeleccionado3 = seleccionarArticulo(lista);
+
+                    if (articuloSeleccionado3 != null) {
+                        lista.remove(articuloSeleccionado3);
+                        JOptionPane.showMessageDialog(null, "Articulo eliminado correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Artículo no encontrado o lista vacia.");
+                    }
                     
                     break;
                 case "4":
-                // Convertir la lista a un array de Articulo
-                    Articulo[] articulos1 = new Articulo[lista.size()];
-                    lista.toArray(articulos1);
+                    Articulo articuloSeleccionado4 = seleccionarArticulo(lista);
                     
-                    // Convertir el array de Articulo a un array de Strings con solo los nombres
-                    String[] nombresArticulos1 = new String[articulos1.length];
-                    for (int i = 0; i < articulos1.length; i++) {
-                        nombresArticulos1[i] = articulos1[i].getNombre();
-                    }
-                    
-                    // Mostrar el diálogo de selección
-                    String nombreSeleccionado1 = (String) JOptionPane.showInputDialog(
-                        null,
-                        "Seleccione un artículo",
-                        "Buscar Artículo",
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        nombresArticulos1,
-                        nombresArticulos1[0]
-                    );
-                    
-                    // Buscar el Articulo correspondiente en el array original
-                    Articulo articuloSeleccionado1 = null;
-                    for (Articulo articulo1 : articulos1) {
-                        if (articulo1.getNombre().equals(nombreSeleccionado1)) {
-                            articuloSeleccionado1 = articulo1;
-                            break;
-                        }
-                    }
-                    
-                    if (articuloSeleccionado1 != null) {
-                        JOptionPane.showMessageDialog(null, "Artículo seleccionado: " + "\n" + articuloSeleccionado1.toString());
+                    if (articuloSeleccionado4 != null) {
+                        JOptionPane.showMessageDialog(null, "Artículo seleccionado: " + "\n" + articuloSeleccionado4.toString());
                     } else {
-                        JOptionPane.showMessageDialog(null, "Artículo no encontrado.");
+                        JOptionPane.showMessageDialog(null, "Artículo no encontrado o lista vacia.");
                     }
 
                     break;
                 case "5":
+                    Articulo articuloSeleccionado5 = seleArticuloPorCategoria(lista);
 
+                    if (articuloSeleccionado5 != null) {
+                        JOptionPane.showMessageDialog(null, "Artículo seleccionado: " + "\n" + articuloSeleccionado5.toString());
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Artículo no encontrado o lista vacia.");
+                    }
                     break;
                 case "6":
                     condition = false;
@@ -143,5 +102,72 @@ public class Laboratorio2 {
             }   
         }
         
+        
+    }
+
+    public static Articulo seleccionarArticulo(LinkedList<Articulo> lista){
+        if(lista.isEmpty() || lista == null){
+            JOptionPane.showMessageDialog(null, "La lista esta vacia.");;
+            return null;
+        }
+        // Convertir la lista a un array de Articulo
+        Articulo[] articulos = new Articulo[lista.size()];
+        lista.toArray(articulos);
+        
+        // Convertir el array de Articulo a un array de Strings con solo los nombres
+        String[] nombresArticulos = new String[articulos.length];
+        for (int i = 0; i < articulos.length; i++) {
+            nombresArticulos[i] = articulos[i].getNombre();
+        }
+        
+        // Mostrar el diálogo de selección
+        String nombreSeleccionado = (String) JOptionPane.showInputDialog(
+            null,
+            "Seleccione un artículo",
+            "Buscar Artículo",
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            nombresArticulos,
+            nombresArticulos[0]
+        );
+        
+        // Buscar el Articulo correspondiente en el array original
+        Articulo articuloSeleccionado = null;
+        for (Articulo articulo : articulos) {
+            if (articulo.getNombre().equals(nombreSeleccionado)) {
+                articuloSeleccionado = articulo;
+                break;
+            }
+        }
+        return articuloSeleccionado;
+   }
+
+   public static Articulo seleArticuloPorCategoria(LinkedList<Articulo> lista){
+        String categoriaDeProducto = seleccionarCategoria();
+        LinkedList<Articulo> articulosDeCategoria = new LinkedList<>();
+        Iterator<Articulo> it = lista.iterator();
+        while (it.hasNext()) {
+            Articulo art = it.next();
+            if(art.getCategoria().equals(categoriaDeProducto)){
+                articulosDeCategoria.add(art);
+            }
+        }
+        
+        return seleccionarArticulo(articulosDeCategoria);
+   }
+
+   public static String seleccionarCategoria(){
+        // Mostrar el diálogo de selección
+        String nombreSeleccionado = (String) JOptionPane.showInputDialog(
+            null,
+            "Seleccione un artículo",
+            "Buscar Artículo",
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            new Object[] {"Panaderia" , "Verduras", "Higiene", "Lacteos", "Bebidas", "Limpieza", "Frutas"},
+            "Panaderia"
+        );
+        
+        return nombreSeleccionado;
     }
 }

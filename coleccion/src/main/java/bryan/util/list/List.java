@@ -131,6 +131,7 @@ public interface List<E> {
 	
 	public List<E> subList(E from, E to);
 	
+	@SuppressWarnings("hiding")
 	public <E> E[] toArray(E[] array);
 
 }

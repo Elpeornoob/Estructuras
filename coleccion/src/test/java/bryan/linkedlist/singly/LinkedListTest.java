@@ -217,21 +217,6 @@ public class LinkedListTest {
 
     }
 
-    /**@Test
-    public void testPeekCollection() {
-        LinkedList<Integer> list = new LinkedList<>();
-        Integer[] array = { 1, 5, 67, 56, 67, 89, 200 };
-        assertTrue(list.add(array));
-        assertEquals(7, list.size());
-
-        Object[] expected = { 1, 5, 67, 56 };
-        Object[] real = list.peekCollection(4).toArray();
-        for (int i = 0; i < expected.length; i++) {
-            assertEquals(expected[i], real[i]);
-        }
-
-    }**/
-
     @Test
     public void testPeekLast() {
         LinkedList<Integer> list = new LinkedList<>();
