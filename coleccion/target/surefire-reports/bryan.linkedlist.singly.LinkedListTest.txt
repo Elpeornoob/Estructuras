@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: bryan.linkedlist.singly.LinkedListTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.071 s <<< FAILURE! - in bryan.linkedlist.singly.LinkedListTest
+testRemove(bryan.linkedlist.singly.LinkedListTest)  Time elapsed: 0.02 s  <<< FAILURE!
+java.lang.AssertionError
+	at bryan.linkedlist.singly.LinkedListTest.testRemove(LinkedListTest.java:325)
+
